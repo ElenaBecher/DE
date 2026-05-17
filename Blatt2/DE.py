@@ -16,3 +16,5 @@ bounds = [(-32.768, 32.768)] * 20  # bounds for each dimension
 result = differential_evolution(ackley, bounds, maxiter=1000, tol=1e-7, disp=True, popsize=1)
 print("Minimum value found: ", result.fun)
 print("Minimum location found: ", result.x)
+
+# uses DE/best/1/bin
