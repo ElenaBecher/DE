@@ -4,17 +4,10 @@ import csv
 import time
 from scipy.optimize import differential_evolution
 
-# -------------------------------------------------
-# Sinus
-# -------------------------------------------------
-
 def sine_function(t, amplitude, frequency, phase):
     w = 2*np.pi*frequency
     return - amplitude * w**2 * np.sin(w*t + phase)
 
-# -------------------------------------------------
-# Daten
-# -------------------------------------------------
 
 times = []
 accel_abs = []
@@ -38,18 +31,11 @@ with open('sensordata.csv', 'r') as file:
 times = np.array(times) - times[0]
 accel_abs = np.array(accel_abs)
 
-# -------------------------------------------------
-# Fitness
-# -------------------------------------------------
 
 def fitness(params):
     amplitude, frequency, phase = params
     pred = sine_function(times, amplitude, frequency, phase)
     return np.sum((accel_abs - pred)**2)
-
-# -------------------------------------------------
-# Bounds
-# -------------------------------------------------
 
 bounds = [
     (0, 50),
@@ -57,9 +43,6 @@ bounds = [
     (-np.pi, np.pi)
 ]
 
-# -------------------------------------------------
-# Configs
-# -------------------------------------------------
 
 configs = [
     ("best1bin", 20, 0.5, 0.7, 100),
@@ -70,25 +53,13 @@ configs = [
 
 runs = 10
 
-# -------------------------------------------------
-# Ergebnisse speichern
-# -------------------------------------------------
-
 labels = []
 mean_errors = []
 mean_iters = []
 mean_runtimes = []
 
-# -------------------------------------------------
-# Plot Sinus
-# -------------------------------------------------
-
 plt.figure(figsize=(10, 6))
 plt.scatter(times, accel_abs, color='red', s=10, label='Sensor Data')
-
-# -------------------------------------------------
-# DE + Mittelwerte
-# -------------------------------------------------
 
 for strategy, popsize, mutation, recombination, maxiter in configs:
 
